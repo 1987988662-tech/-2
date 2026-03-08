@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>学信网原型 (可编辑版)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f7f8fa; color: #333; margin: 0; padding: 0; user-select: none; -webkit-tap-highlight-color: transparent; }
+        .page { display: none; width: 100vw; height: 100vh; overflow-y: auto; position: absolute; top: 0; left: 0; }
+        .active-page { display: block; }
+        /* iPhone status bar area */
+        .status-bar { height: 44px; background: #fff; display: flex; justify-content: space-between; align-items: center; padding: 0 16px; font-weight: 600; font-size: 14px; position: sticky; top: 0; z-index: 50; }
+        [contenteditable="true"] { border: 1px dashed rgba(0,0,0,0.1); border-radius: 2px; padding: 1px; user-select: text; }
+        [contenteditable="true"]:focus { border: 1px solid #1abc9c; outline: none; background: rgba(26, 188, 156, 0.05); }
+        .icon-placeholder { background-color: #e2e8f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #94a3b8; font-size: 12px; }
+        /* General styles */
+        .nav-bar { height: 44px; background: #fff; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; border-bottom: 1px solid #eee; position: sticky; top: 44px; z-index: 40; }
+        .tab-bar { height: 83px; background: #fff; position: fixed; bottom: 0; left: 0; width: 100%; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-around; padding-top: 10px; padding-bottom: calc(env(safe-area-inset-bottom) + 10px); z-index: 50; }
+        .tab-item { display: flex; flex-direction: column; align-items: center; justify-content: center; color: #7f8c8d; cursor: pointer; }
+        .tab-item.active { color: #1abc9c; }
+        .content-area { padding: 16px; padding-bottom: 100px; /* space for tab bar */ }
+        .section-title { font-size: 20px; font-weight: bold; margin-bottom: 20px; color: #000; }
+        .card-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+        .card-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+        .chsi-green { color: #1abc9c; }
+        .chsi-bg-green { background-color: #1abc9c; }
+    </style>
+</head>
+<body>
+
+<div class="status-bar">
+    <span contenteditable="true">12:38</span>
+    <div class="flex items-center space-x-1">
+        <div class="w-4 h-3 bg-gray-600 rounded-sm"></div>
+        <div class="w-4 h-3 bg-gray-600 rounded-sm"></div>
+        <div class="w-6 h-3 border border-gray-600 rounded-sm flex items-center px-0.5"><div class="w-full h-2 bg-gray-600 rounded-xs"></div></div>
+    </div>
+</div>
+
+<div id="page-home" class="page active-page">
+    <div class="nav-bar">
+        <div></div>
+        <div class="font-bold text-lg" contenteditable="true">学信网</div>
+        <div class="w-6 h-6 icon-placeholder">扫</div>
+    </div>
+    
+    <div class="content-area">
+        <h2 class="section-title" contenteditable="true">学籍学历学位</h2>
+        
+        <div class="card-grid">
+            <div class="card-item" onclick="goToPage('page-archive')">
+                <div class="w-16 h-16 icon-placeholder mb-2">图标</div>
+                <div class="text-xs text-center" contenteditable="true">学籍查询</div>
+            </div>
+            <div class="card-item" onclick="alertNotStable()">
+                <div class="w-16 h-16 icon-placeholder mb-2">图标</div>
+                <div class="text-xs text-center" contenteditable="true">学籍验证</div>
+            </div>
+            <div class="card-item" onclick="alertNotStable()">
+                <div class="w-16 h-16 icon-placeholder mb-2">图标</div>
+                <div class="text-xs text-center" contenteditable="true">学历查询</div>
+            </div>
+            <div class="card-item" onclick="alertNotStable()">
+                <div class="w-16 h-16 icon-placeholder mb-2">图标</div>
+                <div class="text-xs text-center" contenteditable="true">学历验证</div>
+            </div>
+            <div class="card-item" onclick="alertNotStable()">
+                <div class="w-16 h-16 icon-placeholder mb-2">图标</div>
+                <div class="text-xs text-center" contenteditable="true">学历认证</div>
+            </div>
+            <div class="card-item" onclick="alertNotStable()">
+                <div class="w-16 h-16 icon-placeholder mb-2">图标</div>
+                <div class="text-xs text-center" contenteditable="true">学位查询</div>
+            </div>
+            <div class="card-item" onclick="alertNotStable()">
+                <div class="w-16 h-16 icon-placeholder mb-2">图标</div>
+                <div class="text-xs text-center" contenteditable="true">学位验证</div>
+            </div>
+        </div>
+
+        <div class="bg-blue-50 rounded-xl p-6 flex items-center justify-between mb-8 border border-blue-100" onclick="alertNotStable()">
+            <div class="text-xl font-bold text-gray-800" contenteditable="true">在线考试系统</div>
+            <div class="w-20 h-20 icon-placeholder">Banner图</div>
+        </div>
+
+        <h2 class="section-title" contenteditable="true">出国教育背景信息服务</h2>
+        <div class="grid grid-cols-2 gap-4">
+            <div class="bg-white p-5 rounded-xl flex flex-col items-center border" onclick="alertNotStable()">
+                <div class="w-12 h-12 icon-placeholder mb-3">图标</div>
+                <div class="text-sm font-medium" contenteditable="true">中等教育学历</div>
+            </div>
+            <div class="bg-white p-5 rounded-xl flex flex-col items-center border" onclick="alertNotStable()">
+                <div class="w-12 h-12 icon-placeholder mb-3">图标</div>
+                <div class="text-sm font-medium" contenteditable="true">高等教育成绩单</div>
+            </div>
+            <div class="bg-white p-5 rounded-xl flex flex-col items-center border" onclick="alertNotStable()">
+                <div class="w-12 h-12 icon-placeholder mb-3">图标</div>
+                <div class="text-sm font-medium" contenteditable="true">高考成绩单</div>
+            </div>
+            <div class="bg-cyan-50 p-5 rounded-xl flex flex-col items-center border border-cyan-100" onclick="alertNotStable()">
+                <div class="w-12 h-12 icon-placeholder mb-3">图标</div>
+                <div class="text-sm font-medium chsi-green" contenteditable="true">中学成绩单</div>
+            </div>
+            <div class="bg-orange-50 p-5 rounded-xl flex flex-col items-center border border-orange-100" onclick="alertNotStable()">
+                <div class="w-12 h-12 icon-placeholder mb-3">图标</div>
+                <div class="text-sm font-medium text-orange-500" contenteditable="true">会考成绩单</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="page-news" class="page">
+    <div class="nav-bar">
+        <div></div>
+        <div class="font-bold text-lg" contenteditable="true">新闻</div>
+        <div class="w-6 h-6 icon-placeholder">扫</div>
+    </div>
+    
+    <div class="content-area bg-white space-y-px">
+        <div class="py-4 border-b border-gray-100 px-1" onclick="alertNotStable()">
+            <div class="text-base text-gray-800 mb-1" contenteditable="true">浙江 2026 三位一体招生开启！报考要点速览</div>
+            <div class="text-sm text-gray-400" contenteditable="true">03-05 15:13:00</div>
+        </div>
+        <div class="py-4 border-b border-gray-100 px-1" onclick="alertNotStable()">
+            <div class="text-base text-gray-800 mb-1" contenteditable="true">2026 年对调剂考生的基本要求</div>
+            <div class="text-sm text-gray-400" contenteditable="true">02-28 15:04:00</div>
+        </div>
+        <div class="py-4 border-b border-gray-100 px-1" onclick="alertNotStable()">
+            <div class="text-base text-gray-800 mb-1" contenteditable="true">教育部部署 2026 年全国硕士研究生招生复试录取工作</div>
+            <div class="text-sm text-gray-400" contenteditable="true">02-28 10:38:00</div>
+        </div>
+        <div class="py-4 border-b border-gray-100 px-1" onclick="alertNotStable()">
+            <div class="text-base text-gray-800 mb-1" contenteditable="true">关于山东省 2026 年硕士研究生招生考试初试成绩公布有关事宜的公告</div>
+            <div class="text-sm text-gray-400" contenteditable="true">02-27 09:25:00</div>
+        </div>
+    </div>
+</div>
+
+<div id="page-me" class="page">
+    <div class="nav-bar border-none">
+        <div></div>
+        <div class="font-bold text-lg" contenteditable="true">我的</div>
+        <div></div>
+    </div>
+    
+    <div class="content-area">
+        <div class="bg-white p-6 rounded-xl flex items-center justify-between mb-4 border relative">
+            <div class="flex items-center space-x-4">
+                <div class="w-16 h-16 rounded-full icon-placeholder">头像</div>
+                <div>
+                    <div class="text-xl font-bold mb-1" contenteditable="true">夏瑞</div>
+                    <div class="text-sm text-gray-500" contenteditable="true">130******63</div>
+                </div>
+            </div>
+            <div class="absolute top-6 right-6 flex items-center bg-cyan-50 px-3 py-1 rounded-full border border-cyan-100">
+                <div class="w-3 h-3 icon-placeholder mr-1"></div>
+                <span class="text-xs chsi-green" contenteditable="true">已实人验证</span>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl border mb-4">
+            <div class="flex items-center justify-between p-5 border-b border-gray-100" onclick="alertNotStable()">
+                <div class="flex items-center space-x-3">
+                    <div class="w-5 h-5 icon-placeholder bg-blue-500"></div>
+                    <span class="text-base" contenteditable="true">关于</span>
+                </div>
+                <div class="text-gray-400 text-lg">›</div>
+            </div>
+            <div class="flex items-center justify-between p-5 border-b border-gray-100" onclick="alertNotStable()">
+                <div class="flex items-center space-x-3">
+                    <div class="w-5 h-5 icon-placeholder bg-green-500"></div>
+                    <span class="text-base" contenteditable="true">帮助中心</span>
+                </div>
+                <div class="text-gray-400 text-lg">›</div>
+            </div>
+            <div class="flex items-center justify-between p-5" onclick="alertNotStable()">
+                <div class="flex items-center space-x-3">
+                    <div class="w-5 h-5 icon-placeholder bg-orange-500"></div>
+                    <span class="text-base" contenteditable="true">注销账号</span>
+                </div>
+                <div class="text-gray-400 text-lg">›</div>
+            </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-xl border text-center text-lg text-gray-800" contenteditable="true" onclick="alert('已退出（模拟）')">
+            退出登录
+        </div>
+    </div>
+</div>
+
+<div id="page-archive" class="page bg-white">
+    <div class="chsi-bg-green p-4 flex items-center justify-between text-white sticky top-44 z-40">
+        <div class="text-xl" onclick="goToPage('page-home')">‹</div>
+        <div class="flex items-center space-x-2">
+            <div class="w-6 h-6 icon-placeholder bg-white/20"></div>
+            <span class="font-bold text-lg" contenteditable="true">学信档案</span>
+        </div>
+        <div class="text-xl">✕</div>
+    </div>
+
+    <div class="content-area !pt-4 !bg-gray-50">
+        <div class="bg-white p-5 rounded-xl border mb-4 space-y-3" onclick="alertNotStable()">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <span class="text-lg font-medium text-gray-900" contenteditable="true">院校满意度</span>
+                    <span class="bg-orange-100 text-orange-600 text-xs px-2 py-0.5 rounded-sm" contenteditable="true">累计投票 16607</span>
+                </div>
+                <button class="chsi-bg-green text-white text-sm px-5 py-2 rounded-full">去评价</button>
+            </div>
+            <div class="text-sm text-gray-600" contenteditable="true">南昌工学院-视觉传达设计</div>
+        </div>
+
+        <div class="bg-white p-5 rounded-xl border mb-4 flex justify-between items-start" onclick="alertNotStable()">
+            <div>
+                <div class="text-lg font-medium text-gray-900 mb-1" contenteditable="true">新媒体运营-2026届校园招聘</div>
+                <div class="flex items-center space-x-3 text-sm">
+                    <span class="text-orange-600 font-bold" contenteditable="true">6.0k-10.0k</span>
+                    <span class="bg-cyan-50 text-cyan-600 px-2 py-0.5 rounded-sm" contenteditable="true">本科及以上</span>
+                </div>
+            </div>
+            <button class="chsi-bg-green text-white text-sm px-5 py-2 rounded-full">更多职位</button>
+        </div>
+
+        <div class="bg-purple-50 rounded-xl p-5 flex items-center justify-between mb-8 border border-purple-100" onclick="alertNotStable()">
+            <div>
+                <div class="text-lg font-bold text-purple-900 mb-1" contenteditable="true">职场实习</div>
+                <div class="text-xs text-purple-700 max-w-[180px]" contenteditable="true">反馈实习困惑、实战心得与建议，帮大家实习少走弯路</div>
+            </div>
+            <div class="w-16 h-16 icon-placeholder bg-purple-200">图</div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-y-8 gap-x-4 text-center">
+            <div class="flex flex-col items-center" onclick="goToPage('page-higher-edu')">
+                <div class="w-10 h-10 icon-placeholder mb-3"></div>
+                <div class="text-xs text-gray-700 leading-tight" contenteditable="true">高等教育信息</div>
+            </div>
+            <div class="flex flex-col items-center" onclick="alertNotStable()">
+                <div class="w-10 h-10 icon-placeholder mb-3"></div>
+                <div class="text-xs text-gray-700 leading-tight" contenteditable="true">在线验证报告</div>
+            </div>
+            <div class="flex flex-col items-center" onclick="alertNotStable()">
+                <div class="w-10 h-10 icon-placeholder mb-3"></div>
+                <div class="text-xs text-gray-700 leading-tight" contenteditable="true">学历学位认证与成绩验证</div>
+            </div>
+            </div>
+    </div>
+</div>
+
+<div id="page-higher-edu" class="page bg-white">
+    <div class="nav-bar !sticky top-44 border-none px-4">
+        <div class="text-xl" onclick="goToPage('page-archive')">‹</div>
+        <div></div>
+        <div class="text-xl">✕</div>
+    </div>
+    <div class="chsi-bg-green p-4 text-white text-center font-bold text-lg sticky top-[88px] z-40">
+        <div class="absolute left-4 text-xl" onclick="goToPage('page-archive')">‹</div>
+        <span contenteditable="true">高等教育信息</span>
+    </div>
+
+    <div class="content-area !pt-4 !bg-gray-50">
+        <div class="bg-sky-50 rounded-xl p-4 flex items-center justify-between mb-6 border border-sky-100" onclick="alertNotStable()">
+            <div>
+                <div class="flex items-center space-x-2 mb-1">
+                    <span class="text-lg font-bold text-sky-900" contenteditable="true">专业推荐</span>
+                    <span class="bg-sky-600 text-white text-[10px] px-1.5 py-0.5 rounded-sm" contenteditable="true">推荐</span>
+                </div>
+                <div class="text-xs text-sky-800" contenteditable="true">本校优势专业或特色专业</div>
+            </div>
+            <div class="w-12 h-12 icon-placeholder bg-sky-200">图</div>
+        </div>
+
+        <div class="mb-6">
+            <div class="flex items-center justify-between text-sm mb-2 px-1">
+                <span class="text-gray-900 font-medium" contenteditable="true">学籍信息 (1)</span>
+                <span class="text-gray-400" contenteditable="true">还有学籍没有显示出来？ <span class="chsi-green">尝试绑定</span></span>
+            </div>
+            <div class="chsi-bg-green p-6 rounded-2xl text-white shadow-lg shadow-green-100 relative" onclick="goToPage('page-detail')">
+                <div class="text-2xl font-bold mb-4" contenteditable="true">南昌工学院</div>
+                <div class="flex items-center space-x-2 text-sm opacity-90">
+                    <span contenteditable="true">视觉传达设计</span>
+                    <span>|</span>
+                    <span contenteditable="true">普通全日制</span>
+                </div>
+                <span class="absolute top-6 right-6 bg-white/20 text-xs px-3 py-1 rounded-full" contenteditable="true">本科</span>
+            </div>
+        </div>
+
+        <div class="mb-6" onclick="alertNotStable()">
+            <div class="flex items-center justify-between text-sm mb-2 px-1">
+                <span class="text-gray-900 font-medium" contenteditable="true">学历信息 (1)</span>
+                <span class="text-gray-400" contenteditable="true">还有学历没有显示出来？ <span class="chsi-green">尝试绑定</span></span>
+            </div>
+            <div class="bg-blue-500 p-6 rounded-2xl text-white shadow-lg shadow-blue-100 relative">
+                <div class="text-2xl font-bold mb-4" contenteditable="true">南昌工学院</div>
+                <div class="flex items-center space-x-2 text-sm opacity-90">
+                    <span contenteditable="true">视觉传达设计</span>
+                    <span>|</span>
+                    <span contenteditable="true">普通全日制</span>
+                </div>
+                <span class="absolute top-6 right-6 bg-white/20 text-xs px-3 py-1 rounded-full" contenteditable="true">本科</span>
+            </div>
+        </div>
+        
+        </div>
+</div>
+
+<div id="page-detail" class="page bg-white">
+    <div class="nav-bar !sticky top-44 border-none px-4 bg-white">
+        <div class="text-xl" onclick="goToPage('page-higher-edu')">‹</div>
+        <div></div>
+        <div class="text-xl">✕</div>
+    </div>
+
+    <div class="content-area !pt-0 !pb-20">
+        <div class="chsi-bg-green p-6 rounded-b-2xl text-white mb-8 relative">
+            <div class="flex items-center space-x-6 mb-6">
+                <div class="flex space-x-2">
+                    <div class="w-20 h-28 icon-placeholder bg-white/20 rounded-md">录取照片</div>
+                    <img id="editable-avatar" src="https://via.placeholder.com/80x112?text=头像" alt="学历照片" class="w-20 h-28 rounded-md object-cover cursor-pointer" onclick="changeAvatar()">
+                </div>
+                <div>
+                    <div class="text-2xl font-bold mb-1" contenteditable="true">夏瑞</div>
+                    <div class="text-sm opacity-90" contenteditable="true">男 2001年12月06日</div>
+                </div>
+            </div>
+            <div class="border-t border-white/20 pt-4">
+                <div class="text-2xl font-bold mb-2" contenteditable="true">南昌工学院</div>
+                <div class="flex items-center space-x-2 text-sm opacity-90">
+                    <span contenteditable="true">视觉传达设计</span>
+                    <span>|</span>
+                    <span contenteditable="true">普通全日制</span>
+                </div>
+                <span class="absolute top-6 right-6 bg-white/20 text-xs px-3 py-1 rounded-full" contenteditable="true">本科</span>
+            </div>
+        </div>
+
+        <div class="px-4 space-y-5 text-base">
+            <div class="flex justify-between"><span class="text-gray-500">民族</span><span class="text-gray-900 font-medium" contenteditable="true">汉族</span></div>
+            <div class="flex justify-between"><span class="text-gray-500">证件号码</span><span class="text-gray-900 font-medium" contenteditable="true">320724200112063031</span></div>
+            <div class="flex justify-between"><span class="text-gray-500">学制</span><span class="text-gray-900 font-medium" contenteditable="true">4 年</span></div>
+            <div class="flex justify-between"><span class="text-gray-500">学历类别</span><span class="text-gray-900 font-medium" contenteditable="true">普通高等教育</span></div>
+            <div class="flex justify-between"><span class="text-gray-500">分院</span><span class="text-gray-900 font-medium" contenteditable="true">艺术与传媒设计学院</span></div>
+            <div class="flex justify-between"><span class="text-gray-500">系所</span><span class="text-gray-900 font-medium" contenteditable="true"></span></div>
+            <div class="flex justify-between"><span class="text-gray-500">班级</span><span class="text-gray-900 font-medium" contenteditable="true">传设A2133班</span></div>
+            <div class="flex justify-between"><span class="text-gray-500">学号</span><span class="text-gray-900 font-medium" contenteditable="true">21051130302</span></div>
+            <div class="flex justify-between"><span class="text-gray-500">入学日期</span><span class="text-gray-900 font-medium" contenteditable="true">2021年09月01日</span></div>
+            <div class="flex justify-between"><span class="text-gray-500">学籍状态</span><span class="text-gray-900 font-medium" contenteditable="true">不在籍（毕业）</span></div>
+            <div class="flex justify-between"><span class="text-gray-500">离校日期</span><span class="text-gray-900 font-medium" contenteditable="true">2025年06月10日</span></div>
+        </div>
+        
+        <div class="fixed bottom-0 left-0 width-100 p-4 bg-white/95 border-t z-50">
+            <button class="w-full chsi-bg-green text-white text-lg font-bold py-3.5 rounded-xl" onclick="alertNotStable()">查看验证报告</button>
+        </div>
+    </div>
+</div>
+
+<div id="main-tab-bar" class="tab-bar">
+    <div class="tab-item active" onclick="goToMainPage('page-home', this)">
+        <div class="w-7 h-7 icon-placeholder mb-1">首</div>
+        <div class="text-xs font-medium">首页</div>
+    </div>
+    <div class="tab-item" onclick="goToMainPage('page-news', this)">
+        <div class="w-7 h-7 icon-placeholder mb-1">新</div>
+        <div class="text-xs font-medium">新闻</div>
+    </div>
+    <div class="tab-item" onclick="goToMainPage('page-me', this)">
+        <div class="w-7 h-7 icon-placeholder mb-1">我</div>
+        <div class="text-xs font-medium">我的</div>
+    </div>
+</div>
+
+
+<script>
+    // 页面跳转逻辑
+    function goToPage(pageId) {
+        // 隐藏所有页面
+        document.querySelectorAll('.page').forEach(page => {
+            page.classList.remove('active-page');
+        });
+        // 显示目标页面
+        document.getElementById(pageId).classList.add('active-page');
+        
+        // 控制底部 TabBar 的显示：只在前三个页面显示
+        const mainPages = ['page-home', 'page-news', 'page-me'];
+        const tabBar = document.getElementById('main-tab-bar');
+        if (mainPages.includes(pageId)) {
+            tabBar.style.display = 'flex';
+        } else {
+            tabBar.style.display = 'none';
+        }
+    }
+
+    // 底部 TabBar 点击专用跳转
+    function goToMainPage(pageId, tabElement) {
+        goToPage(pageId);
+        // 更新 Tab 选中状态
+        document.querySelectorAll('.tab-item').forEach(item => {
+            item.classList.remove('active');
+        });
+        tabElement.classList.add('active');
+    }
+
+    // 其他点击：提示网络不稳定
+    function alertNotStable() {
+        alert("网络不稳定，请稍后再试。");
+    }
+
+    // 第六张图：修改头像功能
+    function changeAvatar() {
+        const newUrl = prompt("请输入新头像图片的 URL 地址 (例如: https://example.com/myphoto.jpg):");
+        if (newUrl && newUrl.trim() !== "") {
+            document.getElementById('editable-avatar').src = newUrl.trim();
+        }
+    }
+</script>
+
+</body>
+</html>
